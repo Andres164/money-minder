@@ -40,8 +40,9 @@ async function formLogInSubmitted(e) {
         console.log("Bienvenido, " + user.username);
         
         /* Change for JWT on the backend */
-        user.password = password;
         sessionStorage.setItem("logedInUser", JSON.stringify(user));
+
+        window.location.href = "main.html";
     } catch (err) {
         errorAlert("Ocurrio un error, intentelo mas tarde.");
     }

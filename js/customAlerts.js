@@ -21,3 +21,14 @@ function warningAlert(message, title = 'Advertencia') {
         text: message,
     });
 }
+
+async function confirmationAlert(message, title = '¿Deseas continuar?', icon = 'question') {
+    return Swal.fire({
+        title: title,
+        text: message,
+        icon: icon,
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+    });
+}

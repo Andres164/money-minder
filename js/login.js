@@ -1,11 +1,13 @@
 const formLogIn = document.getElementById("loginForm");
 const txtBoxEmail = document.getElementById("email");
 const txtBoxPassword = document.getElementById("password");
+const btnLogin = document.getElementById("login");
 
 formLogIn.addEventListener("submit", formLogInSubmitted);
 
 async function formLogInSubmitted(e) {
     e.preventDefault();
+    btnLogin.disabled = true;
 
     const email = txtBoxEmail.value.trim();
     const password = txtBoxPassword.value.trim();
@@ -15,9 +17,7 @@ async function formLogInSubmitted(e) {
     try {
         const response = await fetch("http://localhost:8080/users/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(request)
         });
         
@@ -39,8 +39,13 @@ async function formLogInSubmitted(e) {
         const user = await response.json();
         console.log("Bienvenido, " + user.username);
         
-        // Redirect or store session info here
+        /* Change for JWT on the backend */
+        user.password = password;
+        sessionStorage.setItem("logedInUser", JSON.stringify(user));
     } catch (err) {
         errorAlert("Ocurrio un error, intentelo mas tarde.");
+    }
+    finally {
+        btnLogin.disabled = false;       
     }
 }

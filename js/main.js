@@ -7,19 +7,19 @@ if (!user) {
   window.location.href = "index.html";
 }
 
-
 window.addEventListener("DOMContentLoaded", loadUsers);
 
 changePasswordForm.addEventListener("submit", changePasswordFormSubmit);
 btnDeleteAccount.addEventListener("click", btnDeleteAccountClicked);
 btnLogout.addEventListener("click", btnLogoutClicked);
 
+const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
 
 async function loadUsers() {
   lblWelcomed.innerHTML += ` ${user.username}`;
 
   try {
-    const res = await fetch("http://localhost:8080/users");
+    const res = await fetch(`${apiBaseUrl}/users`);
     const users = await res.json();
 
     const tbody = document.querySelector("#userTable tbody");
@@ -43,7 +43,7 @@ async function changePasswordFormSubmit(e) {
     const newPassword = document.getElementById("newPassword").value;
 
     try {
-        const res = await fetch(`http://localhost:8080/users/${user.email}/change-password`, {
+        const res = await fetch(`${apiBaseUrl}/users/${user.email}/change-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ oldPassword, newPassword })
@@ -74,7 +74,7 @@ async function btnDeleteAccountClicked() {
     }
 
     try {
-        const res = await fetch(`http://localhost:8080/users/${user.email}`, {
+        const res = await fetch(`${apiBaseUrl}/users/${user.email}`, {
         method: "DELETE"
         });
 

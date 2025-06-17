@@ -6,6 +6,8 @@ const btnRegister = document.getElementById("register");
 
 formRegister.addEventListener("submit", formRegisterSubmitted);
 
+const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
+
 async function formRegisterSubmitted(e) {
     e.preventDefault();
     btnRegister.disabled = true;
@@ -17,7 +19,7 @@ async function formRegisterSubmitted(e) {
     const request = { email, username, password };
 
     try {
-        const response = await fetch("http://localhost:8080/users", {
+        const response = await fetch(`${apiBaseUrl}/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(request)

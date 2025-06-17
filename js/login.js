@@ -5,6 +5,8 @@ const btnLogin = document.getElementById("login");
 
 formLogIn.addEventListener("submit", formLogInSubmitted);
 
+const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
+
 async function formLogInSubmitted(e) {
     e.preventDefault();
     btnLogin.disabled = true;
@@ -15,7 +17,7 @@ async function formLogInSubmitted(e) {
     const request = { email: email, password: password };
 
     try {
-        const response = await fetch("http://localhost:8080/users/login", {
+        const response = await fetch(`${apiBaseUrl}/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(request)

@@ -6,8 +6,6 @@ const btnRegister = document.getElementById("register");
 
 formRegister.addEventListener("submit", formRegisterSubmitted);
 
-const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
-
 async function formRegisterSubmitted(e) {
     e.preventDefault();
     btnRegister.disabled = true;
@@ -25,20 +23,24 @@ async function formRegisterSubmitted(e) {
             body: JSON.stringify(request)
         });
 
-        if (response.status === 400) {
-            warningAlert("Ya existe un usuario con este correo.");
-            return;
-        }
-
-        if (!response.ok) {
+        if (response.status >= 500) {
             errorAlert("Ocurrió un error al registrarse. Inténtalo más tarde.");
+            return;
+        } else if (response.status == 409) {
+            warningToast("El email proporcionado ya esta registrado");
+            return;
+        } if (response.status >= 400) {
+            const resBody = await response.json();
+            resBodyErrors = Object.values(resBody);
+            warningAlert(resBodyErrors[0]);
             return;
         }
 
         successAlert("¡Cuenta creada con éxito! Serás redirigido al login...")
             .then(() => window.location.href = "index.html");
     } catch (err) {
-        errorAlert("Error de red. Inténtalo más tarde.");
+        console.error(err);
+        errorAlert("Error inesperado. Inténtalo más tarde.");
     } finally { 
         btnRegister.disabled = false;
     }

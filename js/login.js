@@ -45,8 +45,11 @@ async function formLogInSubmitted(e) {
             warningAlert("Contraseña incorrecta.");
             return;
         } else if(response.status >= 400) {
-            const resBody = response.json();
-            warningAlert(resBody[0]);
+            const resBody = await response.json();
+            const resBodyKeys = Object.keys(resBody);
+            const resBodyValues = Object.values(resBody);
+            warningAlert(`El campo ${resBodyKeys} es invalio. ${resBodyValues[0]}`);
+            return;
         }
 
         const user = await response.json();

@@ -31,11 +31,12 @@ async function formRegisterSubmitted(e) {
             return;
         } if (response.status >= 400) {
             const resBody = await response.json();
-            resBodyErrors = Object.values(resBody);
-            warningAlert(resBodyErrors[0]);
+            const resBodyKeys = Object.keys(resBody);
+            const resBodyValues = Object.values(resBody);
+            warningAlert(`El campo ${resBodyKeys} es invalio. ${resBodyValues[0]}`);
             return;
         }
-
+        
         successAlert("¡Cuenta creada con éxito! Serás redirigido al login...")
             .then(() => window.location.href = "index.html");
     } catch (err) {

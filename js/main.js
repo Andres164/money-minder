@@ -2,8 +2,8 @@ const changePasswordForm = document.getElementById("changePasswordForm");
 const btnDeleteAccount = document.getElementById("btnDeleteAccount");
 const btnLogout = document.getElementById("btnLogout");
 
-const user = JSON.parse(sessionStorage.getItem("logedInUser"));
-if (!user) {
+const loggedInUser = JSON.parse(sessionStorage.getItem("logedInUser"));
+if (!loggedInUser) {
   window.location.href = "index.html";
 }
 
@@ -13,17 +13,15 @@ changePasswordForm.addEventListener("submit", changePasswordFormSubmit);
 btnDeleteAccount.addEventListener("click", btnDeleteAccountClicked);
 btnLogout.addEventListener("click", btnLogoutClicked);
 
-const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
-
 async function loadUsers() {
-  lblWelcomed.innerHTML += ` ${user.username}`;
+  lblWelcomed.innerHTML += ` ${loggedInUser.username}`;
 
   try {
-    const res = await fetch(`${apiBaseUrl}/users`);
-    const users = await res.json();
+    const res = await fetch(`${apiBaseUrl}/expenses`);
+    const userExpenses = await res.json();
 
     const tbody = document.querySelector("#userTable tbody");
-    users.forEach(u => {
+    userExpenses.forEach(u => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${u.id}</td>
@@ -37,13 +35,24 @@ async function loadUsers() {
   }
 }
 
+async function btnLogoutClicked() {
+    const result = await confirmationAlert("¿Estás seguro que quieres cerrar sesión?")
+
+    if(result.isConfirmed) {
+        sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}
+
+// TODO: Move to user settings
+
 async function changePasswordFormSubmit(e) {
     e.preventDefault();
     const oldPassword = document.getElementById("oldPassword").value;
     const newPassword = document.getElementById("newPassword").value;
 
     try {
-        const res = await fetch(`${apiBaseUrl}/users/${user.email}/change-password`, {
+        const res = await fetch(`${apiBaseUrl}/users/${loggedInUser.email}/change-password`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ oldPassword, newPassword })
@@ -74,7 +83,7 @@ async function btnDeleteAccountClicked() {
     }
 
     try {
-        const res = await fetch(`${apiBaseUrl}/users/${user.email}`, {
+        const res = await fetch(`${apiBaseUrl}/users/${loggedInUser.email}`, {
         method: "DELETE"
         });
 
@@ -91,14 +100,5 @@ async function btnDeleteAccountClicked() {
         });
     } catch (err) {
         errorAlert("Error al eliminar la cuenta.");
-    }
-}
-
-async function btnLogoutClicked() {
-    const result = await confirmationAlert("¿Estás seguro que quieres cerrar sesión?")
-
-    if(result.isConfirmed) {
-        sessionStorage.clear();
-        window.location.href = "index.html";
     }
 }

@@ -2,7 +2,8 @@
 
 ## Change the main page
 
-- Show user expenses in the table
+- ~Show user expenses in the table~
+- hide userId column
 
 ### Move functionality to user settings
 

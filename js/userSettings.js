@@ -3,7 +3,7 @@ const btnDeleteAccount = document.getElementById("btnDeleteAccount");
 
 const loggedInUser = JSON.parse(sessionStorage.getItem("logedInUser"));
 if (!loggedInUser) {
-  window.location.href = "index.html";
+    window.location.href = "index.html";
 }
 
 changePasswordForm.addEventListener("submit", changePasswordFormSubmit);

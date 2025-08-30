@@ -2,12 +2,17 @@
 
 ## Change the main page
 
-- ~Show user expenses in the table~
-- hide userId column
+- ~hide userId column~
+- Add delete expense
+- Sort expenses from newest
+- Add modify expense
+- Filter expenses by week
+- Show pages for showing different weeks
+- Add option to create new categories
 
 ### Move functionality to user settings
 
 - Change password
 - Delete account
 
-# Use JWT to track user login
+## Use JWT to track user login

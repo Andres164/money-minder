@@ -29,7 +29,7 @@ async function formRegisterSubmitted(e) {
         } else if (response.status == 409) {
             warningToast("El email proporcionado ya esta registrado");
             return;
-        } if (response.status >= 400) {
+        } else if (response.status >= 400) {
             const resBody = await response.json();
             const resBodyKeys = Object.keys(resBody);
             const resBodyValues = Object.values(resBody);

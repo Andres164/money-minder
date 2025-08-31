@@ -2,10 +2,10 @@
 
 ## Change the main page
 
-- ~hide userId column~
-- Add delete expense
-- Sort expenses from newest
-- Add modify expense
+- ~Add delete expense~
+- ~Sort expenses from newest~
+- ~Add modify expense~
+- Add custom alert when reaching API rate limit
 - Filter expenses by week
 - Show pages for showing different weeks
 - Add option to create new categories

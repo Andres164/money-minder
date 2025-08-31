@@ -48,3 +48,19 @@ async function warningToast(title, timer = 3000) {
         }
     });
 }
+
+async function successToast(title, timer = 3000) {
+    Swal.fire({
+        toast: true,
+        icon: 'success',
+        title: title,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: timer,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+}

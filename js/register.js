@@ -26,6 +26,9 @@ async function formRegisterSubmitted(e) {
         if (response.status >= 500) {
             errorAlert("Ocurrió un error al registrarse. Inténtalo más tarde.");
             return;
+        } else if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
         } else if (response.status == 409) {
             warningToast("El email proporcionado ya esta registrado");
             return;

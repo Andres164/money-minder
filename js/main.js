@@ -29,8 +29,23 @@ async function loadExpenses() {
     lblWelcomed.innerHTML = `Bienvenido ${loggedInUser.username}`;
 
     try {
-        const res = await fetch(`${apiBaseUrl}/expenses`);
-        const userExpenses = await res.json();
+        const response = await fetch(`${apiBaseUrl}/users/${loggedInUser.email}/expenses`);
+
+        if (response.status >= 500) {
+            errorAlert("Ocurrio un error al intentar obtener sus gastos, intente mas tarde");
+            return;
+        } else if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
+        } else if (response.status >= 400) {
+            const resBody = await response.json();
+            const resBodyKeys = Object.keys(resBody);
+            const resBodyValues = Object.values(resBody);
+            warningAlert(`El campo ${resBodyKeys[0]} es invalio. ${resBodyValues[0]}`);
+            return;
+        }
+
+        const userExpenses = await response.json();
         const tbody = document.querySelector("#tableExpenses tbody");
         tbody.innerHTML = "";
 
@@ -127,6 +142,9 @@ async function btnSaveExpenseClicked() {
         if (response.status >= 500) {
             errorAlert("Ocurrio un error al intentar guardar el gasto, intente mas tarde");
             return;
+        } else if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
         } else if (response.status >= 400) {
             const resBody = await response.json();
             const resBodyKeys = Object.keys(resBody);
@@ -184,8 +202,10 @@ async function deleteExpense() {
         if (response.status >= 500) {
             errorAlert("Ocurrio un error al eliminar el gasto, intente mas tarde.");
             return;
-        }
-        else if (response.status >= 400) {
+        } else if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
+        } else if (response.status >= 400) {
             const resBody = await response.json();
             const resBodyKeys = Object.keys(resBody);
             const resBodyValues = Object.values(resBody);

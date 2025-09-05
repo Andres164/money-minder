@@ -2,10 +2,8 @@
 
 ## Change the main page
 
-- ~Add delete expense~
-- ~Sort expenses from newest~
-- ~Add modify expense~
-- Add custom alert when reaching API rate limit
+- ~~Remember that theres no endpoint for getting expenses from only 1 user~~
+- ~~Add custom alert when reaching API rate limit~~
 - Filter expenses by week
 - Show pages for showing different weeks
 - Add option to create new categories

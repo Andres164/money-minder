@@ -36,15 +36,23 @@ async function formLogInSubmitted(e) {
             const resBody = await response.json();
             console.error(resBody.error);
             return;
+        } if (response.status >= 500) {
+            errorAlert("Ocurrio un error al intentar guardar el gasto, intente mas tarde");
+            return;
+        }
+        if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
         }
         if (response.status == 404) {
             warningAlert("No existe un usuario con este correo.");
             return;
         }
-        else if(response.status == 401) {
+        if(response.status == 401) {
             warningAlert("Contraseña incorrecta.");
             return;
-        } else if(response.status >= 400) {
+        } 
+        if(response.status >= 400) {
             const resBody = await response.json();
             const resBodyKeys = Object.keys(resBody);
             const resBodyValues = Object.values(resBody);

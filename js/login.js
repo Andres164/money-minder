@@ -4,8 +4,16 @@ const txtBoxPassword = document.getElementById("password");
 const btnLogin = document.getElementById("login");
 
 formLogIn.addEventListener("submit", formLogInSubmitted);
-
-const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
+document.addEventListener("DOMContentLoaded", () => {
+    // Triggers API instance to turn on, but we don’t care about the response
+    fetch(`${apiBaseUrl}/users`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store"
+    }).catch(() => {
+        // ignore errors 
+    });
+});
 
 async function formLogInSubmitted(e) {
     e.preventDefault();
@@ -23,18 +31,32 @@ async function formLogInSubmitted(e) {
             body: JSON.stringify(request)
         });
         
+        if(response.status >= 500) {
+            errorAlert("Ocurrio un error al intentar autentificar, intentelo mas tarde");
+            const resBody = await response.json();
+            console.error(resBody.error);
+            return;
+        } if (response.status >= 500) {
+            errorAlert("Ocurrio un error al intentar guardar el gasto, intente mas tarde");
+            return;
+        }
+        if(response.status == 429) {
+            warningAlert("Alto ahi 🛑, estas haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
+        }
         if (response.status == 404) {
             warningAlert("No existe un usuario con este correo.");
             return;
         }
-        else if(response.status == 401) {
+        if(response.status == 401) {
             warningAlert("Contraseña incorrecta.");
             return;
-        }
-        else if(!response.ok) {
-            errorAlert("Ocurrio un error al intentar autentificar, intentelo mas tarde");
+        } 
+        if(response.status >= 400) {
             const resBody = await response.json();
-            console.error(resBody.error);
+            const resBodyKeys = Object.keys(resBody);
+            const resBodyValues = Object.values(resBody);
+            warningAlert(`El campo ${resBodyKeys} es invalio. ${resBodyValues[0]}`);
             return;
         }
 

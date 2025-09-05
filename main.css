@@ -1,0 +1,8 @@
+.expense-date-header {
+    background-color: #dbdbdb !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+    border-bottom: 1px solid #dee2e6;
+}

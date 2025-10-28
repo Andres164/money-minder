@@ -225,6 +225,49 @@ async function deleteExpense() {
     }
 }
 
+async function BtnSaveCategoryClicked() {
+    if (!createCategoryForm.checkValidity()) {
+        createCategoryForm.reportValidity();
+        return;
+    }
+
+    const categoryName = txtBoxCategoryName.value;
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/categories`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: categoryName })
+        });
+
+        if (response.status >= 500) {
+            errorAlert("Ocurrio un error al intentar crear la categoría, intente más tarde");
+            return;
+        } else if (response.status == 429) {
+            warningAlert("Alto ahí 🛑, estás haciendo demasiadas consultas, espera un minuto por favor.");
+            return;
+        } else if (response.status >= 400) {
+            const resBody = await response.json();
+            const resBodyKeys = Object.keys(resBody);
+            const resBodyValues = Object.values(resBody);
+            warningAlert(`El campo ${resBodyKeys[0]} es inválido. ${resBodyValues[0]}`);
+            return;
+        }
+
+        const resBody = await response.json();
+        console.log("Categoría creada:", resBody);
+
+        loadCategories();
+        createCategoryModalInstance.hide();
+        resetForm(createCategoryForm);
+    } catch (err) {
+        console.error(err);
+        errorAlert("Error al crear la categoría");
+    }
+}
+
 function addDeleteButton() {
     clearDeleteButton();
     const modalFooter = expenseModal.querySelector(".modal-footer");

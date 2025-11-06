@@ -48,12 +48,14 @@
           <!-- Category -->
           <div class="mb-3">
             <label for="categoryId" class="form-label">Categoría</label>
-            <select class="form-select" id="categoryId" name="selectCategory" required>
-              <option value="">Seleccione...</option>
-              <option value="1">Alimentos</option>
-              <option value="2">Transporte</option>
-              <option value="3">Entretenimiento</option>
-            </select>
+            <div class="d-flex align-items-center">
+              <select class="form-select flex-grow-1 me-2" id="categoryId" name="selectCategory" required>
+                <option value="">Seleccione...</option>
+              </select>
+              <button type="button" class="btn btn-outline-secondary" id="btnConfigureCateogries" aria-label="Configurar categorías">
+                <i class="fa-solid fa-gear"></i>
+              </button>
+            </div>
           </div>
 
           <!-- Amount -->

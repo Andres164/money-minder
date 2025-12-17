@@ -2,6 +2,7 @@ const btnLogout = document.getElementById("btnLogout");
 const expenseForm = document.getElementById("expenseForm");
 const btnCreateExpense = document.getElementById("btnCreateExpense");
 const btnSaveExpense = document.getElementById("btnSaveExpense");
+const btnConfigureCateogries = document.getElementById("btnConfigureCateogries");
 const expenseModal = document.getElementById("expenseModal");
 const expenseModalInstance = new bootstrap.Modal(expenseModal);
 
@@ -23,6 +24,7 @@ window.addEventListener("DOMContentLoaded", setDatePickerExpenseToCurrentDate);
 btnCreateExpense.addEventListener("click", btnCreateExpenseClicked);
 btnSaveExpense.addEventListener("click", btnSaveExpenseClicked);
 btnLogout.addEventListener("click", btnLogoutClicked);
+btnConfigureCateogries.addEventListener("click", btnConfigureCategoriesClicked);
 
 
 async function loadExpenses() {
@@ -175,6 +177,10 @@ async function btnLogoutClicked() {
         sessionStorage.clear();
         window.location.href = "index.html";
     }
+}
+
+function btnConfigureCategoriesClicked() {
+    toast("info", "Funcionalidad en desarrollo 🚧 proximamente disponible 😅");
 }
 
 function tableExpensesDataRowClicked(expense) {

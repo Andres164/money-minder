@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://localhost:8080"; // "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app";
+const apiBaseUrl = "https://money-minder-spring-boot-723598043884.northamerica-south1.run.app"; // "http://localhost:8080";
 
 document.addEventListener("DOMContentLoaded", checkEnvironment());
 
